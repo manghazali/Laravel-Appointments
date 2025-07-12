@@ -1,19 +1,15 @@
 #!/bin/bash
-# Wait for MySQL to be ready
-until mysqladmin ping -h"$DB_HOST" --silent; do
-# With this (pure TCP check)
-until nc -z "$DB_HOST" "$DB_PORT"; do
-  echo "Waiting for database connection at $DB_HOST:$DB_PORT..."
+until mysqladmin ping -h"$DB_HOST" -P"$DB_PORT" --silent; do
+  echo "Waiting for MySQL at $DB_HOST:$DB_PORT..."
   sleep 2
 done
 
-# Ensure .env exists
-cp .env.example .env 2>/dev/null
+# Create the database if it doesn't exist
+echo "Creating database $DB_DATABASE if it doesn't exist..."
+mysql -h"$DB_HOST" -P"$DB_PORT" -u"$DB_USERNAME" -p"$DB_PASSWORD" -e "CREATE DATABASE IF NOT EXISTS \`$DB_DATABASE\`;"
 
-# Generate key if not already present
-if ! grep -q "APP_KEY=base64:" .env; then
-    php artisan key:generate --force
-fi
+cp .env.example .env
+php artisan key:generate --force
 
 # Clear and cache config
 php artisan config:clear
