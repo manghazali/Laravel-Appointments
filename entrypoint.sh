@@ -1,13 +1,16 @@
 #!/bin/bash
+# Wait for MySQL to be ready
+until mysqladmin ping -h"$DB_HOST" --silent; do
+    echo "Waiting for database..."
+    sleep 2
+done
 
 # Ensure .env exists
-if [ ! -f .env ]; then
-  cp .env.example .env
-fi
+cp .env.example .env 2>/dev/null
 
-# Generate app key if not already set
-if ! grep -q "APP_KEY=" .env || grep -q "APP_KEY=" .env | grep -q 'APP_KEY=$'; then
-  php artisan key:generate --force
+# Generate key if not already present
+if ! grep -q "APP_KEY=base64:" .env; then
+    php artisan key:generate --force
 fi
 
 # Clear and cache config
