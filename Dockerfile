@@ -4,10 +4,16 @@ FROM php:7.4-cli
 WORKDIR /var/www
 
 # Install system dependencies
+# RUN apt-get update && apt-get install -y \
+#     git unzip curl libzip-dev libpng-dev libonig-dev libxml2-dev zip \
+#     libpq-dev postgresql-client \
+#     && docker-php-ext-install pdo pdo_pgsql zip mbstring exif pcntl
+
 RUN apt-get update && apt-get install -y \
-    git unzip curl libzip-dev libpng-dev libonig-dev libxml2-dev zip \
+    git unzip curl libzip-dev libpng-dev libjpeg-dev libfreetype6-dev libonig-dev libxml2-dev zip \
     libpq-dev postgresql-client \
-    && docker-php-ext-install pdo pdo_pgsql zip mbstring exif pcntl
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install pdo pdo_pgsql gd zip mbstring exif pcntl
 
 
 # Install Composer
