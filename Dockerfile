@@ -21,6 +21,12 @@ RUN chown -R www-data:www-data /var/www \
 # Install Composer dependencies
 RUN composer install --optimize-autoloader --no-dev --no-interaction
 
+# Copy entrypoint script
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
+
 # Expose port and run Laravel
 EXPOSE 8000
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
