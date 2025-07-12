@@ -11,6 +11,7 @@ php artisan key:generate --force
 # Clear and cache config
 php artisan config:clear
 php artisan config:cache
+php artisan storage:link
 
 # Run migrations
 php artisan migrate --seed --force
