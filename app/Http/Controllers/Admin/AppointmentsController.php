@@ -149,7 +149,7 @@ class AppointmentsController extends Controller
         $clients = Client::where('id', $client_id)->first();
 
         // Send reminder email
-        // Mail::to($clients->email)->send(new AppointmentReminder($appointment));
+        Mail::to($clients->email)->send(new AppointmentReminder($appointment));
 
         return redirect()->route('admin.appointments.index');
     }
