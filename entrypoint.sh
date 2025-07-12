@@ -1,8 +1,5 @@
 #!/bin/bash
-until mysqladmin ping -h"$DB_HOST" -P"$DB_PORT" --silent; do
-  echo "Waiting for MySQL at $DB_HOST:$DB_PORT..."
-  sleep 2
-done
+
 
 # Create the database if it doesn't exist
 echo "Creating database $DB_DATABASE if it doesn't exist..."
