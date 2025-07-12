@@ -6,6 +6,7 @@ WORKDIR /var/www
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     git unzip curl libzip-dev libpng-dev libonig-dev libxml2-dev zip \
+    default-mysql-client \
     && docker-php-ext-install pdo pdo_mysql zip mbstring exif pcntl
 
 # Install Composer

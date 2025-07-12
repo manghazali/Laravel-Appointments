@@ -1,8 +1,10 @@
 #!/bin/bash
 # Wait for MySQL to be ready
 until mysqladmin ping -h"$DB_HOST" --silent; do
-    echo "Waiting for database..."
-    sleep 2
+# With this (pure TCP check)
+until nc -z "$DB_HOST" "$DB_PORT"; do
+  echo "Waiting for database connection at $DB_HOST:$DB_PORT..."
+  sleep 2
 done
 
 # Ensure .env exists
