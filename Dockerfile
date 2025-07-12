@@ -18,18 +18,8 @@ COPY . .
 RUN chown -R www-data:www-data /var/www \
     && chmod -R 755 /var/www/storage /var/www/bootstrap/cache
 
-# Install Composer dependencies
-RUN composer install --optimize-autoloader --no-dev --no-interaction
+# Copy and make entrypoint executable
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-# Copy .env if it doesn't exist
-RUN cp .env.example .env || true
-
-# Generate application key
-RUN php artisan key:generate
-
-# Run migrations and seed the database
-RUN php artisan migrate --seed --force || true
-
-# Expose port and run Laravel
-EXPOSE 8000
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+CMD ["/entrypoint.sh"]
