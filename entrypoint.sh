@@ -3,7 +3,7 @@
 
 # Create the database if it doesn't exist
 echo "Creating database $DB_DATABASE if it doesn't exist..."
-mysql -h"$DB_HOST" -P"$DB_PORT" -u"$DB_USERNAME" -p"$DB_PASSWORD" -e "CREATE DATABASE IF NOT EXISTS \`$DB_DATABASE\`;"
+psql -h"$DB_HOST" -p"$DB_PORT" -U"$DB_USERNAME" -d postgres -c "CREATE DATABASE IF NOT EXISTS \`$DB_DATABASE\`;"
 
 cp .env.example .env
 php artisan key:generate --force
