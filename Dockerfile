@@ -27,6 +27,9 @@ RUN cp .env.example .env || true
 # Generate application key
 RUN php artisan key:generate
 
+# Run migrations and seed the database
+RUN php artisan migrate --seed --force || true
+
 # Expose port and run Laravel
 EXPOSE 8000
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
