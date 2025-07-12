@@ -14,8 +14,8 @@ fi
 php artisan config:clear
 php artisan config:cache
 
-# Run migrations if needed (optional)
-php artisan migrate --force || true
+# Run migrations
+php artisan migrate --seed --force
 
 # Start Laravel server
 php artisan serve --host=0.0.0.0 --port=8000
